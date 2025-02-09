@@ -2,7 +2,7 @@ Config = {
     BlipNumber = 357, -- https://docs.fivem.net/docs/game-references/blips/#blips
     BlipColor = 4, -- https://docs.fivem.net/docs/game-references/blips/#blip-colors
     ShowBlips = true, -- If true, will show blips on the map
-    UniqueBlips = false, -- If true, will show seperate names per garage, disabled if ShowBlips is false
+    UniqueBlips = true, -- If true, will show seperate names per garage, disabled if ShowBlips is false
 }
 
 Config.Garages = {
@@ -24,7 +24,7 @@ Config.Garages = {
         },
     },
     motelgarage = {
-        blipName = 'Public Parking',
+        blipName = 'Motel Garage',
         takeVehicleZone = {
             vec3(265.94, -343.45, 45.0),
             vec3(267.98, -337.70, 45.0),
