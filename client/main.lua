@@ -9,6 +9,7 @@ local function FindMiddleOfZone(zone)
     return vector3(x / #zone, y / #zone, z / #zone)
 end
 
+-- Creates a blip for the zone with a specific name
 local function CreateBlip(zone, blipName)
     local blipCoords = FindMiddleOfZone(zone)
     local blip = AddBlipForCoord(blipCoords.x, blipCoords.y, blipCoords.z)
@@ -28,5 +29,7 @@ local function CreateBlip(zone, blipName)
 end
 
 for i, v in pairs(Config.Garages) do
-    CreateBlip(v.takeVehicleZone, v.blipName)
+    if (Config.ShowBlips) then
+        CreateBlip(v.takeVehicleZone, v.blipName)
+    end
 end
