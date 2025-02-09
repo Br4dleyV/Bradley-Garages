@@ -1,3 +1,5 @@
+local QBCore = exports['qb-core']:GetCoreObject()
+
 -- Finds the middle of the zone and creates a blip there
 local function FindMiddleOfZone(zone)
     local x, y, z = 0.0, 0.0, 0.0
@@ -28,6 +30,45 @@ local function CreateBlip(zone, blipName)
     EndTextCommandSetBlipName(blip)
 end
 
+local function OpenGarage(garageData)
+    QBCore.Functions.TriggerCallback('bradley-garages:server:GetVehicles', function(vehicles)
+        if vehicles then
+            print(json.encode(GetAllVehicleModels()))
+            local menuOptions = {}
+
+            for i, v in pairs(vehicles) do
+                local option = {}
+                option.title = v.vehicle
+                option.description = v.plate
+                option.metadata = {
+                    ["Garage"] = garageData.blipName,
+                    ["Plate"] = v.plate,
+                    ["Fuel"] = v.fuel .. "%",
+                    ["Engine"] = v.engine/10 .. "%",
+                    ["Body"] = v.body/10 .. "%",
+                    ["Vehicle"] = v.vehicle,
+                }
+                option.image = "vehicle_images/"..v.vehicle..".webp"
+                option.onSelect = function()
+                    print("Selected vehicle: " .. v.vehicle)
+                end
+
+                table.insert(menuOptions, option)
+            end
+
+            lib.registerContext({
+                id = 'garage',
+                title = garageData.blipName,
+                canClose = true,
+                options = menuOptions,
+            })
+            lib.showContext('garage')
+        else
+            print("No vehicles found or player not found.")
+        end
+    end)
+end
+
 for i, v in pairs(Config.Garages) do
     if (Config.ShowBlips) then
         CreateBlip(v.takeVehicleZone, v.blipName)
@@ -42,7 +83,7 @@ for i, v in pairs(Config.Garages) do
             CreateThread(function ()
                 while insideZone do
                     if IsControlJustPressed(0, 38) then
-                        
+                        OpenGarage(v)
                     end
                     Wait(0)
                 end
