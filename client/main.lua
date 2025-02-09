@@ -32,4 +32,25 @@ for i, v in pairs(Config.Garages) do
     if (Config.ShowBlips) then
         CreateBlip(v.takeVehicleZone, v.blipName)
     end
+
+    local insideZone = false
+    lib.zones.poly({
+        points = v.takeVehicleZone,
+        onEnter = function ()
+            lib.showTextUI('Press [E] to take a vehicle')
+            insideZone = true
+            CreateThread(function ()
+                while insideZone do
+                    if IsControlJustPressed(0, 38) then
+                        
+                    end
+                    Wait(0)
+                end
+            end)
+        end,
+        onExit = function ()
+            lib.hideTextUI()
+            insideZone = false
+        end,
+    })
 end
