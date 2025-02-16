@@ -33,7 +33,6 @@ end
 local function OpenGarage(garageData)
     QBCore.Functions.TriggerCallback('bradley-garages:server:GetVehicles', function(vehicles)
         if vehicles then
-            print(json.encode(GetAllVehicleModels()))
             local menuOptions = {}
 
             for i, v in pairs(vehicles) do
@@ -48,7 +47,6 @@ local function OpenGarage(garageData)
                     ["Body"] = v.body/10 .. "%",
                     ["Vehicle"] = v.vehicle,
                 }
-                option.image = "vehicle_images/"..v.vehicle..".webp"
                 option.onSelect = function()
                     print("Selected vehicle: " .. v.vehicle)
                 end
@@ -64,7 +62,7 @@ local function OpenGarage(garageData)
             })
             lib.showContext('garage')
         else
-            print("No vehicles found or player not found.")
+            lib.notify({title = "Error", description = "No vehicles found", type = "error", icon = "car"})
         end
     end)
 end
